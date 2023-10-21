@@ -101,13 +101,6 @@ abstract contract Solve3Verify {
         emit Solve3ValidFromTimestampSet(_validFromTimestamp);
     }
 
-    /// @notice Abstract function to set the Valid Period Seconds
-    /// @dev Can be used to change the period in seconds for which the signature is valid
-    /// @param _validPeriodSeconds the period in seconds for which the signature is valid
-    function setValidPeriodSeconds(uint256 _validPeriodSeconds) external virtual {
-        _setValidPeriodSeconds(_validPeriodSeconds);
-    }
-
     /// @notice Internal function to set the Valid Period Seconds
     /// @dev Can be used by the abstract function to change the period in seconds for which the signature is valid
     /// @param _validPeriodSeconds the period in seconds for which the signature is valid
