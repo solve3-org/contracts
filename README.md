@@ -4,6 +4,7 @@ Solve3 addresses the issues caused by bots in various Web3 activities, such as g
 
 - [Introduction](#introduction)
 - [Solve3 Contracts](#solve3-contracts)
+  - [Diagram](#diagram)
   - [Solve3Master Contract](#solve3master-contract)
   - [Solve3Verify Contract](#solve3verify-contract)
     - [Implementation Guide](#implementation-guide)
@@ -11,6 +12,26 @@ Solve3 addresses the issues caused by bots in various Web3 activities, such as g
 ## Solve3 Contracts
 
 Solve3 consists of two essential contracts: `Solve3Master` and `Solve3Verify`. We'll provide an overview of these contracts, their functions, and their deployment addresses.
+
+### Diagram
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant Solve3Backend
+  participant Solve3Verify
+  participant Solve3Master
+
+  User->>Solve3Backend: request proof
+  Solve3Backend-->>User: returns `proof`
+  User->>Solve3Verify: call function using `proof`
+  Solve3Verify->>Solve3Master: calls verifyProof(proof)
+  Solve3Master->>Solve3Master: verifies the proof
+  Solve3Master-->>Solve3Verify: returns `account`, `timestamp`, `verified`
+  Solve3Verify->>Solve3Verify: checks return data
+  Solve3Verify->>Solve3Verify: executes function logic
+  Solve3Verify-->>User: return
+```
 
 ### Solve3Master Contract
 
@@ -25,6 +46,7 @@ The `Solve3Master` contract is the core of Solve3, managing signer status, nonce
     * `setSigner(address _account, bool _flag)`: Sets the signer status of an account.
     * `transferOwnership(address _newOwner)`: Transfers ownership of the contract.
     * `recoverERC20(address _token)`: Recovers ERC20 tokens.
+    * `verifyProof(bytes calldata _proof)`: Verifies a proof and returns account of the proof, timestamp and whether the proof was verified or not.
 * **Events**:
     
     * `OwnershipTransferred`: Triggered when contract ownership is transferred.
