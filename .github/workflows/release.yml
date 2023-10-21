@@ -5,15 +5,16 @@ on:
     branches: 
       - main
       - beta
-      
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
 
     steps:
-    - name: Release
+    - name: Prerelease
       uses: ./.github/workflows/prerelease
+    - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
