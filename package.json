@@ -2,6 +2,7 @@
   "name": "@solve3/contracts",
   "version": "0.0.0-semantic-release",
   "description": "",
+  "private": false,
   "homepage": "https://solve3.org",
   "repository": {
     "type": "git",
