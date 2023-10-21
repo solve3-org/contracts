@@ -27,7 +27,8 @@ abstract contract Solve3Verify {
     /// @dev Default values are: validFromTimestamp = block timestamp, validPeriodSeconds = 300
     /// @param _solve3Master the Solve3Master contract
     function __init_Solve3Verify(address _solve3Master) internal {
-        if (_solve3Master == address(0)) revert Solve3VerifyInitializedAlready();
+        if (_solve3Master == address(0)) revert Solve3ZeroAddress();
+        if (address(solve3Master) != address(0)) revert Solve3VerifyAlreadyInitialized();
         solve3Master = ISolve3Master(_solve3Master);
         validFromTimestamp = block.timestamp;
         validPeriodSeconds = 300;
@@ -119,11 +120,12 @@ abstract contract Solve3Verify {
 
     // ============ Errors ============
 
-    error Solve3VerifyInitializedAlready();
+    error Solve3VerifyAlreadyInitialized();
     error Solve3VerifyIsDisabled();
     error Solve3VerifyIsNotDisabled();
     error Solve3VerifyUnableToVerify();
     error Solve3VerifyAddressMismatch();
     error Solve3VerifyMsgSignedTooEarly();
     error Solve3VerifySignatureInvalid();
+    error Solve3ZeroAddress();
 }
