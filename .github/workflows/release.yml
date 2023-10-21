@@ -2,7 +2,10 @@ name: Release
 
 on:
   push:
-    branches: [main, beta]
+    branches: 
+      - main
+      - beta
+  pull_request:
 
 jobs:
   release:
@@ -24,8 +27,6 @@ jobs:
       run: npm run lint-fix
     - name: Test
       run: npm run test:unit --if-present
-    - name: Build
-      run: npm run build      
     - name: Release
       if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
       env:
