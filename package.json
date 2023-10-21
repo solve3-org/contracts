@@ -1,12 +1,26 @@
 {
-  "name": "hardhat-project",
+  "name": "@solve3/contracts",
+  "version": "0.0.0-semantic-release",
+  "description": "",
+  "homepage": "https://solve3.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solve3-org/contracts"
+  },
   "devDependencies": {
+    "@commitlint/cli": "^18.0.0",
+    "@commitlint/config-conventional": "^18.0.0",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "hardhat": "^2.12.2"
+    "hardhat": "^2.12.2",
+    "husky": "^8.0.3"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
     "eth-sig-util": "^3.0.1",
     "ethereum-waffle": "^3.4.4"
-  }
+  },
+  "files": [
+    "contracts/*.sol"
+  ],
+  "prepare": "husky install"
 }
