@@ -24,7 +24,6 @@ contract Solve3VerifyMock is Solve3Verify {
 
     function setValidPeriodSeconds(uint256 _validPeriodSeconds)
         external
-        override
         onlyOwner
     {
         _setValidPeriodSeconds(_validPeriodSeconds);
