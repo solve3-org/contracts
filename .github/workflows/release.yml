@@ -2,34 +2,49 @@ name: Release
 
 on:
   push:
-    branches: 
+    branches:
+      - main
+  pull_request:
+    branches:
       - main
       - beta
-  pull_request:
 
 jobs:
-  release:
-    name: Release
+  release-pr:
+    name: Release on PR
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Setup Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 18.x
-    - name: Install dependencies
-      run: npx ci
-    - name: Install semantic-release extra plugins
-      run: npm install --save-dev @semantic-release/changelog @semantic-release/git      
-    - name: Lint
-      run: npm run lint-fix
-    - name: Test
-      run: npm run test:unit --if-present
-    - name: Release
-      if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beta')
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+      - name: Install dependencies
+        run: npx ci
+      - name: Lint
+        run: npm run lint-fix
+      - name: Test
+        run: npm run test:unit --if-present
+
+  release-main:
+    name: Release on Main Merge
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+      - name: Install semantic-release extra plugins
+        run: npm install --save-dev @semantic-release/changelog @semantic-release/git
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
