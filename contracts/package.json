@@ -1,0 +1,27 @@
+{
+  "name": "@solve3/contracts",
+  "version": "1.0.5",
+  "homepage": "https://solve3.org",
+  "description": "Contracts for Solve3 smart contract bot protection",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solve3-org/contracts.git"
+  },
+  "keywords": [
+    "solidity"
+  ],
+  "author": "Solve3.org",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/solve3-org/contracts/issues"
+  },
+  "files": [
+    "*.sol",
+    "!mocks/",
+    "!proxy"
+  ]
+}

@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.14;
+pragma solidity >=0.8.14;
 
 import "./ISolve3Master.sol";
 
@@ -99,13 +99,6 @@ abstract contract Solve3Verify {
     function _setValidFromTimestamp(uint256 _validFromTimestamp) internal {
         validFromTimestamp = _validFromTimestamp;
         emit Solve3ValidFromTimestampSet(_validFromTimestamp);
-    }
-
-    /// @notice Abstract function to set the Valid Period Seconds
-    /// @dev Can be used to change the period in seconds for which the signature is valid
-    /// @param _validPeriodSeconds the period in seconds for which the signature is valid
-    function setValidPeriodSeconds(uint256 _validPeriodSeconds) external virtual {
-        _setValidPeriodSeconds(_validPeriodSeconds);
     }
 
     /// @notice Internal function to set the Valid Period Seconds
