@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/solve3-org/contracts/compare/v1.0.0...v1.0.1) (2023-10-21)
+
+
+### Bug Fixes
+
+* package.json ([a1ba6a6](https://github.com/solve3-org/contracts/commit/a1ba6a6eae48f67a686a4ceca5dfff3f1e41a6b9))
+
 # 1.0.0 (2023-10-21)
 
 
