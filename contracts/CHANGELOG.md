@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/solve3-org/contracts/compare/v1.0.5...v1.0.6) (2023-10-30)
+
+
+### Bug Fixes
+
+* release ([4edc52a](https://github.com/solve3-org/contracts/commit/4edc52a3d098da2cd4e272905d999bd21ec48d10))
+
 ## [1.0.5](https://github.com/solve3-org/contracts/compare/v1.0.4...v1.0.5) (2023-10-30)
 
 
