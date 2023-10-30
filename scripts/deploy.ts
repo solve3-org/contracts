@@ -1,7 +1,7 @@
 import { ContractFactory } from "ethers";
 import hre, { ethers, run, upgrades } from "hardhat";
 
-export async function deployMaster(_registryAddress?: string) {
+export async function deployMaster() {
   const networkName = hre.network.name;
 
   console.log(`

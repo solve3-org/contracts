@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-let deployPrivateKey = process.env.DEPLOYER_PRIVATE_KEY as string;
+const deployPrivateKey = process.env.DEPLOYER_PRIVATE_KEY as string;
 if (!deployPrivateKey) {
   throw "No deployer private key set in .env";
 }
