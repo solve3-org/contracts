@@ -11,17 +11,10 @@ dotenv.config();
 
 const deployPrivateKey = (process.env.DEPLOYER_PRIVATE_KEY as string) || "";
 
-const config: HardhatUserConfig = {
-  solidity: {
-    version: "0.8.20",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 400,
-      },
-    },
-  },
-  networks: {
+let networks = {};
+
+if (deployPrivateKey !== "") {
+  networks = {
     goerli: {
       accounts: [deployPrivateKey],
       chainId: 5,
@@ -77,7 +70,20 @@ const config: HardhatUserConfig = {
       chainId: 250,
       url: "https://rpc.fantom.network",
     },
+  };
+}
+
+const config: HardhatUserConfig = {
+  solidity: {
+    version: "0.8.20",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 400,
+      },
+    },
   },
+  networks,
   etherscan: {
     apiKey: {
       goerli: process.env.ETHERSCAN_API_KEY || "",
