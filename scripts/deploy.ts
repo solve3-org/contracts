@@ -1,23 +1,34 @@
-import { ethers } from 'hardhat';
+import { ContractFactory } from "ethers";
+import hre, { ethers, run, upgrades } from "hardhat";
 
-async function main() {
-    const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-    const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-    const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+export async function deployMaster(_registryAddress?: string) {
+  const networkName = hre.network.name;
 
-    const lockedAmount = ethers.utils.parseEther('1');
+  console.log(`
+    ////////////////////////////////////////////////////
+            Deploys Solve3Master.sol on ${networkName}
+    ////////////////////////////////////////////////////
+  `);
 
-    const Lock = await ethers.getContractFactory('Lock');
-    const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const solve3MasterFactory = await ethers.getContractFactory("Solve3Master");
+  const instance = await upgrades.deployProxy(
+    solve3MasterFactory as unknown as ContractFactory,
+    [process.env.SIGNER],
+  );
+  await instance.waitForDeployment();
 
-    await lock.deployed();
+  console.log("Solve3Master.sol deployed to:", instance.target);
+  console.log(
+    "Implementation address: ",
+    await upgrades.erc1967.getImplementationAddress(instance.target as string),
+  );
 
-    console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  await run("verify:verify", {
+    address: instance.target,
+  });
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
+deployMaster().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
 });

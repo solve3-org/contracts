@@ -1,6 +1,7 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-verify";
+import "@openzeppelin/hardhat-upgrades";
+
 //import and config dotenv
 import dotenv from "dotenv";
 
@@ -13,7 +14,7 @@ if (!deployPrivateKey) {
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.19",
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
@@ -80,10 +81,14 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
+      goerli: process.env.ETHERSCAN_API_KEY || "",
       mainnet: process.env.ETHERSCAN_API_KEY || "",
       optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY || "",
       arbitrumOne: process.env.ARBISCAN_API_KEY || "",
     },
+  },
+  sourcify: {
+    enabled: false,
   },
 };
 

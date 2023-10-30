@@ -17,7 +17,6 @@ contract MasterStorage is Structs {
     bytes32 DOMAIN_SEPARATOR;
 
     address public owner;
-    bool public initialized;
     mapping(address => uint256) public nonces;
     mapping(address => bool) public signer;
 }
