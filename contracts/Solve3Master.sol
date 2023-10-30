@@ -1,30 +1,23 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity >=0.8.14;
+pragma solidity ^0.8.14;
 
 import "./MasterStorage.sol";
 import "./ISolve3Master.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 /// @title Solve3Master
 /// @author 0xKurt
 /// @notice Solve3 caster contract to verify proofs
-contract Solve3Master is ISolve3Master, MasterStorage {
-
-    /// @notice Constructor the contract
-    /// @param behindProxy if the contract is behind a proxy
-    constructor(bool behindProxy) {
-        initialized = behindProxy;
-    }
+contract Solve3Master is ISolve3Master, Initializable, MasterStorage {
 
     // ============ Initializer ============
     /// @notice Initialize the contract
     /// @param _signer the Solve3 signer address
-    function initialize(address _signer) external {
-        if (initialized) revert AlreadyInitialized();
+    function initialize(address _signer) external initializer {
         if (owner != address(0)) revert TransferOwnershipFailed();
 
-        initialized = true;
         _transferOwnership(msg.sender);
         _setSigner(_signer, true);
 
@@ -213,7 +206,6 @@ contract Solve3Master is ISolve3Master, MasterStorage {
 
     // ============ Errors ============
 
-    error AlreadyInitialized();
     error TransferOwnershipFailed();
     error NotOwner();
     error Solve3MasterNotVerified();

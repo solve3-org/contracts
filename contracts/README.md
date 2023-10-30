@@ -7,7 +7,8 @@ The `Solve3Verify.sol` contract is a critical component of the [Solve3](https://
   - [Step 1: Import the Contract](#step-1-import-the-contract)
   - [Step 2: Inherit from `Solve3Verify`](#step-2-inherit-from-solve3verify)
   - [Step 3: Initialize the Contract](#step-3-initialize-the-contract)
-  - [Step 4: Abstract Function `disableSolve3`](#step-4-abstract-function-disablesolve3)
+  - [Step 4: Add `solve3Verify` modifier](#step-4-add-solve3verify-modifier)
+  - [Step 5: Abstract Function `disableSolve3`](#step-5-abstract-function-disablesolve3)
 - [Optional Functions](#optional-functions)
   - [Set Valid From Timestamp](#set-valid-from-timestamp)
   - [Set Valid Period Seconds](#set-valid-period-seconds)
@@ -51,14 +52,24 @@ constructor(address _solve3Master) {
 }
 ```
 
-### Step 4: Abstract Function `disableSolve3`
+### Step 4: Add `solve3Verify` modifier
+
+To verify the proof created by Solve3 you have to add the `solve3Verify` modifier to your function and pass the `_proof` parameter.
+
+```solidity
+function foo(bytes memory _proof) external solve3Verify(_proof) {
+    // Your function implementation
+}
+```
+
+### Step 5: Abstract Function `disableSolve3`
 
 Since Solve3 is in beta, you have to implement a function to disable Solve3 verification in your contract.
 
 **Note:** Please also add access control like OpenZeppelin `Ownable`
 
 ```solidity
-function disableSolve3(bool _flag) external {
+function disableSolve3(bool _flag) external override {
     _disableSolve3(_flag);
 }
 ```
