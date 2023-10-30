@@ -1,29 +1,29 @@
-import { expect } from "chai";
+import "mocha";
+
 import { Wallet } from "ethers";
 import { ethers } from "hardhat";
 import { Solve3Master, Solve3VerifyMock } from "../typechain-types";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { signAndEncodeChainProof, typedData } from "./lib/eip712SigUtils";
 import { EIP712Domain, ProofData } from "./lib/types";
 
 import hre from "hardhat";
+import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
+import { expect } from "chai";
 const chainId = hre.network.config.chainId;
 
 async function fixture() {
   const [owner, addr1, addr2] = await ethers.getSigners();
 
-  const signer = ethers.Wallet.createRandom();
+  const signer = ethers.Wallet.createRandom() as unknown as Wallet;
 
   const masterFactory = await ethers.getContractFactory("Solve3Master");
-  const master = await masterFactory.deploy(false);
-  await master.deployed();
+  const master = await masterFactory.deploy();
 
-  await master.initialize(signer.address);
+  await master.initialize(signer.address as string);
 
   const verifyFactory = await ethers.getContractFactory("Solve3VerifyMock");
-  const verify = await verifyFactory.deploy(master.address);
-  await verify.deployed();
+  const verify = await verifyFactory.deploy(master.target as string);
 
   return {
     owner,
@@ -50,30 +50,34 @@ describe("Master", async () => {
   });
 
   it("should have the right owner", async () => {
-    expect(await master.owner()).to.equal(owner.address);
+    expect(await master.owner()).to.equal(owner.address as string);
   });
 
   it("should fail when try to initialize a second time", async () => {
-    await expect(master.initialize(addr1.address)).to.be.reverted;
+    await expect(master.initialize(addr1.address as string)).to.be.reverted;
   });
 
   it("should return the right nonce", async function () {
-    const timestampAndNonce = await master.getTimestampAndNonce(addr2.address);
+    const timestampAndNonce = await master.getTimestampAndNonce(
+      addr2.address as string,
+    );
     expect(timestampAndNonce[1]).to.equal(0);
   });
 
   it("should return true for signer", async function () {
-    const isSigner = await master.isSigner(signer.address);
+    const isSigner = await master.isSigner(signer.address as string);
     expect(isSigner).to.equal(true);
   });
 
   it("should return false for non-signer", async function () {
-    const isSigner = await master.isSigner(addr2.address);
+    const isSigner = await master.isSigner(addr2.address as string);
     expect(isSigner).to.equal(false);
   });
 
   it("should validate proof", async function () {
-    const tsAndNonce = await master.getTimestampAndNonce(addr1.address);
+    const tsAndNonce = await master.getTimestampAndNonce(
+      addr1.address as string,
+    );
     const timestamp = tsAndNonce[0];
     const nonce = tsAndNonce[1];
 
@@ -81,20 +85,20 @@ describe("Master", async () => {
       name: "Solve3",
       version: "1",
       chainId: chainId || 31337,
-      verifyingContract: master.address,
+      verifyingContract: master.target as string,
     };
 
     const data: ProofData = {
-      account: addr2.address,
-      nonce: nonce.toNumber(),
-      timestamp: timestamp.toNumber(),
-      destination: owner.address,
+      account: addr2.address as string,
+      nonce: Number(nonce.toString()),
+      timestamp: Number(timestamp.toString()),
+      destination: owner.address as string,
     };
 
     const typedDataObject = typedData(domain, data);
     const proof = await signAndEncodeChainProof(signer, typedDataObject);
     await hre.network.provider.send("evm_mine");
-    const isValid = await master.callStatic.verifyProof(proof);
+    const isValid = await master.verifyProof.staticCall(proof);
 
     expect(isValid.verified).to.equal(true);
   });
@@ -114,7 +118,9 @@ describe("Verify", async () => {
   });
 
   it("should be able to set the number", async () => {
-    const tsAndNonce = await master.getTimestampAndNonce(addr1.address);
+    const tsAndNonce = await master.getTimestampAndNonce(
+      addr1.address as string,
+    );
     const timestamp = tsAndNonce[0];
     const nonce = tsAndNonce[1];
 
@@ -122,14 +128,14 @@ describe("Verify", async () => {
       name: "Solve3",
       version: "1",
       chainId: chainId || 31337,
-      verifyingContract: master.address,
+      verifyingContract: master.target as string,
     };
 
     const data: ProofData = {
-      account: addr2.address,
-      nonce: nonce.toNumber(),
-      timestamp: timestamp.toNumber(),
-      destination: verify.address,
+      account: addr2.address as string,
+      nonce: Number(nonce.toString()),
+      timestamp: Number(timestamp.toString()),
+      destination: verify.target as string,
     };
 
     const typedDataObject = typedData(domain, data);
@@ -144,14 +150,14 @@ describe("Verify", async () => {
       name: "HelloWorld",
       version: "101",
       chainId: 69,
-      verifyingContract: owner.address,
+      verifyingContract: owner.address as string,
     };
 
     const data: ProofData = {
-      account: owner.address,
+      account: owner.address as string,
       nonce: 7777777777777777,
       timestamp: 1234567890,
-      destination: owner.address,
+      destination: owner.address as string,
     };
 
     await verify.disableSolve3(true);
@@ -170,7 +176,9 @@ describe("Verify", async () => {
   });
 
   it("should not be able to set the number with wrong sender", async () => {
-    const tsAndNonce = await master.getTimestampAndNonce(addr1.address);
+    const tsAndNonce = await master.getTimestampAndNonce(
+      addr1.address as string,
+    );
     const timestamp = tsAndNonce[0];
     const nonce = tsAndNonce[1];
 
@@ -178,14 +186,14 @@ describe("Verify", async () => {
       name: "Solve3",
       version: "1",
       chainId: chainId || 31337,
-      verifyingContract: master.address,
+      verifyingContract: master.target as string,
     };
 
     const data: ProofData = {
-      account: addr2.address,
-      nonce: nonce.toNumber(),
-      timestamp: timestamp.toNumber(),
-      destination: verify.address,
+      account: addr2.address as string,
+      nonce: Number(nonce.toString()),
+      timestamp: Number(timestamp.toString()),
+      destination: verify.target as string,
     };
 
     const typedDataObject = typedData(domain, data);
@@ -195,7 +203,9 @@ describe("Verify", async () => {
   });
 
   it("should not be able to set the number with wrong nonce", async () => {
-    const tsAndNonce = await master.getTimestampAndNonce(addr1.address);
+    const tsAndNonce = await master.getTimestampAndNonce(
+      addr1.address as string,
+    );
     const timestamp = tsAndNonce[0];
     const nonce = tsAndNonce[1];
 
@@ -203,14 +213,14 @@ describe("Verify", async () => {
       name: "Solve3",
       version: "1",
       chainId: chainId || 31337,
-      verifyingContract: master.address,
+      verifyingContract: master.target as string,
     };
 
     const data: ProofData = {
-      account: addr2.address,
-      nonce: nonce.toNumber() + 1,
-      timestamp: timestamp.toNumber(),
-      destination: verify.address,
+      account: addr2.address as string,
+      nonce: Number(nonce.toString()) + 1,
+      timestamp: Number(timestamp.toString()),
+      destination: verify.target as string,
     };
 
     const typedDataObject = typedData(domain, data);
@@ -220,7 +230,9 @@ describe("Verify", async () => {
   });
 
   it("should not be able to set the number with wrong timestamp", async () => {
-    const tsAndNonce = await master.getTimestampAndNonce(addr1.address);
+    const tsAndNonce = await master.getTimestampAndNonce(
+      addr1.address as string,
+    );
     const timestamp = tsAndNonce[0];
     const nonce = tsAndNonce[1];
 
@@ -228,14 +240,14 @@ describe("Verify", async () => {
       name: "Solve3",
       version: "1",
       chainId: chainId || 31337,
-      verifyingContract: master.address,
+      verifyingContract: master.target as string,
     };
 
     const data: ProofData = {
-      account: addr2.address,
-      nonce: nonce.toNumber(),
-      timestamp: timestamp.toNumber() + 1,
-      destination: verify.address,
+      account: addr2.address as string,
+      nonce: Number(nonce.toString()),
+      timestamp: Number(timestamp.toString()) + 1,
+      destination: verify.target as string,
     };
 
     const typedDataObject = typedData(domain, data);
@@ -245,7 +257,9 @@ describe("Verify", async () => {
   });
 
   it("should not be able to set the number with wrong destination", async () => {
-    const tsAndNonce = await master.getTimestampAndNonce(addr1.address);
+    const tsAndNonce = await master.getTimestampAndNonce(
+      addr1.address as string,
+    );
     const timestamp = tsAndNonce[0];
     const nonce = tsAndNonce[1];
 
@@ -253,14 +267,14 @@ describe("Verify", async () => {
       name: "Solve3",
       version: "1",
       chainId: chainId || 31337,
-      verifyingContract: master.address,
+      verifyingContract: master.target as string,
     };
 
     const data: ProofData = {
-      account: addr2.address,
-      nonce: nonce.toNumber(),
-      timestamp: timestamp.toNumber(),
-      destination: addr1.address,
+      account: addr2.address as string,
+      nonce: Number(nonce.toString()),
+      timestamp: Number(timestamp.toString()),
+      destination: addr1.address as string,
     };
 
     const typedDataObject = typedData(domain, data);

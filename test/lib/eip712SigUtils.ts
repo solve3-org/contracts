@@ -1,6 +1,7 @@
-import { ethers } from "ethers";
+import { AbiCoder, ethers } from "ethers";
 import { signTypedData_v4 as sign } from "eth-sig-util";
 import { EIP712Domain, ProofData, TypedData } from "./types";
+import { splitSignature } from "@ethersproject/bytes";
 
 export const typedData = (domain: EIP712Domain, data: ProofData): TypedData => {
   return {
@@ -37,7 +38,10 @@ export const typedData = (domain: EIP712Domain, data: ProofData): TypedData => {
   };
 };
 
-export const typedDataStringify = (domain: EIP712Domain, data: ProofData): string => {
+export const typedDataStringify = (
+  domain: EIP712Domain,
+  data: ProofData,
+): string => {
   return JSON.stringify(typedData(domain, data));
 };
 
@@ -47,13 +51,16 @@ export const signTypedData = (
 ): string => {
   return sign(Buffer.from(signer.privateKey.slice(2), "hex"), {
     data: typedData,
-  });
+  } as any);
 };
 
-export const encodeChainProof = (signature: string, data: ProofData): string => {
-  const sig = ethers.utils.splitSignature(signature);
+export const encodeChainProof = (
+  signature: string,
+  data: ProofData,
+): string => {
+  const sig = splitSignature(signature);
 
-  const result = new ethers.utils.AbiCoder().encode(
+  const result = new AbiCoder().encode(
     ["bytes32", "bytes32", "uint8", "tuple(address,uint256,uint256,address)"],
     [
       sig.s,

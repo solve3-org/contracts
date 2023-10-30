@@ -1,5 +1,7 @@
 import { HardhatUserConfig } from "hardhat/config";
+import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-verify";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "@openzeppelin/hardhat-upgrades";
 
 //import and config dotenv
