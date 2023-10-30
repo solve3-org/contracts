@@ -9,10 +9,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const deployPrivateKey = process.env.DEPLOYER_PRIVATE_KEY as string;
-if (!deployPrivateKey) {
-  throw "No deployer private key set in .env";
-}
+const deployPrivateKey = (process.env.DEPLOYER_PRIVATE_KEY as string) || "";
 
 const config: HardhatUserConfig = {
   solidity: {
