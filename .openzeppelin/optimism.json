@@ -1,0 +1,125 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x1Aaa466460034d13b15382Bb73A59375776081F9",
+    "txHash": "0x149f5a8c1c9a0bd2b6ed85a52d42e7492c15f07d165cd9d825076a8d4395059f"
+  },
+  "proxies": [
+    {
+      "address": "0xa564de1b600e99704c412460cfEc1e32185484e1",
+      "txHash": "0x35f8c16847097b8eeecb81e87664a85ea9b173340dbf6e1cc534a1051b429c0e",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "0325a8ae083469f37f7aa267da3459ca72f931c824747352b57f795c9d4419d4": {
+      "address": "0xf90f420c3d795584A2CD9168E9a2E3a3f648aA7c",
+      "txHash": "0x7e8170812946cfa816ee969b26ad45bebd0610f08fddea16c8a897efdf3aa04c",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "DOMAIN_SEPARATOR",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bytes32",
+            "contract": "MasterStorage",
+            "src": "contracts/MasterStorage.sol:17"
+          },
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "MasterStorage",
+            "src": "contracts/MasterStorage.sol:19"
+          },
+          {
+            "label": "nonces",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "MasterStorage",
+            "src": "contracts/MasterStorage.sol:20"
+          },
+          {
+            "label": "signer",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "MasterStorage",
+            "src": "contracts/MasterStorage.sol:21"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)10_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts/proxy/utils/Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts/proxy/utils/Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

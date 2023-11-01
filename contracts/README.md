@@ -52,6 +52,12 @@ constructor(address _solve3Master) {
 }
 ```
 
+> **Note:** 
+> Solve3Master address: `0xa564de1b600e99704c412460cfEc1e32185484e1` 
+> For the following networks:
+> `Ethereum`, `Optimism`, `Arbitrum`, `Polygon`, `Avalanche`, `Gnosis`, `Celo`, `Fantom`, `Base`,
+> `Goerli`, `Sepolia`
+
 ### Step 4: Add `solve3Verify` modifier
 
 To verify the proof created by Solve3 you have to add the `solve3Verify` modifier to your function and pass the `_proof` parameter.
