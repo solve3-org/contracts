@@ -4,17 +4,7 @@
 ## Solve3Master
 
 **Address:** `0xa564de1b600e99704c412460cfEc1e32185484e1`
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-5w3z{background-color:#ecf4ff;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-fymr{border-color:inherit;font-weight:bold;text-align:left;vertical-align:top}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-.tg .tg-0lax{text-align:left;vertical-align:top}
-</style>
+
 <table class="tg">
 <thead>
   <tr>
@@ -89,17 +79,7 @@
 ## Implementation
 
 **Address:** `0xf90f420c3d795584A2CD9168E9a2E3a3f648aA7c`
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-5w3z{background-color:#ecf4ff;border-color:inherit;text-align:center;vertical-align:top}
-.tg .tg-fymr{border-color:inherit;font-weight:bold;text-align:left;vertical-align:top}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-.tg .tg-0lax{text-align:left;vertical-align:top}
-</style>
+
 <table class="tg">
 <thead>
   <tr>
